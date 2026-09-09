@@ -17,3 +17,6 @@ Thumbs.db
 *.tsbuildinfo
 next-env.d.ts
 /prisma/*.db
+
+# Claude Code 本機設定(含本機路徑,不該進版控)
+.claude/
