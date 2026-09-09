@@ -48,7 +48,7 @@ export async function GET(req: NextRequest) {
     const location = approvedLocation(approval?.location_json || null);
     if (approved && (!approval || !location)) {
       return NextResponse.json(
-        { approved: false, error: "這個核准連結缺少已同意的地點，請重新向小明確認。" },
+        { approved: false, error: "這個核准連結缺少已同意的地點，請重新向慧芳確認。" },
         { status: 409, headers: { "Cache-Control": "no-store" } },
       );
     }

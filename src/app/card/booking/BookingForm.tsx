@@ -62,7 +62,7 @@ function readGaClientId(): string {
 const MODE_DESCRIPTIONS: Record<BookingMode, string> = {
   realtor: "買賣、租賃、房產法律或其他不動產問題",
   collaboration: "拍片、課程、品牌、媒體或商務合作",
-  interview: "應徵OO 房屋或OO 學院相關職務",
+  interview: "應徵中信房屋相關職務",
 };
 
 const MODE_INTENTS: Record<BookingMode, IntentOption[]> = {
@@ -147,7 +147,7 @@ function qualificationFields(mode: BookingMode, intent: string) {
     return [
       { key: "organization", label: "公司／單位名稱", placeholder: "例：XX 品牌、XX 媒體", required: true },
       { key: "role", label: "你的職稱／角色", placeholder: "例：行銷經理、製作人", required: true },
-      { key: "purpose", label: "希望合作的內容", placeholder: "請說明形式、對象與希望小明參與的部分", required: true, multiline: true },
+      { key: "purpose", label: "希望合作的內容", placeholder: "請說明形式、對象與希望慧芳參與的部分", required: true, multiline: true },
       { key: "targetDate", label: "預計合作日期", placeholder: "例：8 月中、尚未確定", required: true },
     ];
   }
@@ -574,7 +574,7 @@ export default function BookingForm() {
     if (!bookingMode) next.bookingMode = "請先選擇這次預約的目的。";
     if (!intentKey) next.intent = "請選擇最接近的需求。";
     if (!meetType) next.meetType = "請選擇聯繫或見面的方式。";
-    if (meetType === "custom" && !customReady) next.meetType = "指定地點必須使用小明核准後提供的專屬連結。";
+    if (meetType === "custom" && !customReady) next.meetType = "指定地點必須使用慧芳核准後提供的專屬連結。";
     if (!selectedStart) next.slot = "請選擇可預約的日期與開始時間。";
     if (!duration) next.duration = "請選擇預約時長。";
     if (!name.trim()) next.name = "請填寫姓名。";
@@ -722,7 +722,7 @@ export default function BookingForm() {
       <main className={styles.page}>
         <div className={styles.shell}>
           <header className={styles.header}>
-            <div className={styles.brand}>房仲日常 MR.BIN</div>
+            <div className={styles.brand}>中信房屋 忠孝延吉加盟店</div>
             <h1 className={styles.title}>預約進度</h1>
           </header>
           <section className={`${styles.statusPanel} ${pending ? styles.statusPanelWarning : ""} ${expired ? styles.statusPanelDanger : ""}`}>
@@ -769,7 +769,7 @@ export default function BookingForm() {
               ) : null}
               {done.manageUrl ? <a className={styles.actionLink} href={done.manageUrl}>管理預約</a> : null}
               <a className={styles.actionLink} href={SOCIAL.line} target="_blank" rel="noopener noreferrer">
-                聯絡小明
+                聯絡慧芳
               </a>
             </div>
           </section>
@@ -782,8 +782,8 @@ export default function BookingForm() {
     <main className={styles.page}>
       <div className={styles.shell}>
         <header className={styles.header}>
-          <div className={styles.brand}>房仲日常 MR.BIN</div>
-          <h1 className={styles.title}>預約與小明聊聊</h1>
+          <div className={styles.brand}>中信房屋 忠孝延吉加盟店</div>
+          <h1 className={styles.title}>預約與慧芳聊聊</h1>
           <p className={styles.lead}>先告訴我這次要談什麼，系統只會顯示適合的方式、時長與必要問題。</p>
           <Progress current={currentStep} />
         </header>
@@ -863,8 +863,8 @@ export default function BookingForm() {
                       <span className={styles.optionDescription}>
                         {isCustom
                           ? customReady
-                            ? "地點已由小明核准，送出時不能自行更換"
-                            : "先與小明確認地點，取得專屬預約連結後才可選"
+                            ? "地點已由慧芳核准，送出時不能自行更換"
+                            : "先與慧芳確認地點，取得專屬預約連結後才可選"
                           : option.desc}
                       </span>
                     </button>
@@ -875,10 +875,10 @@ export default function BookingForm() {
 
               {approvalState === "checking" ? <div className={styles.inlineNotice}>正在驗證指定地點核准資料…</div> : null}
               {approvalState === "approved" && !approvedLocation ? (
-                <div className={styles.errorNotice}>核准連結缺少已同意的地點，無法開放指定地點。請聯絡小明重新產生連結。</div>
+                <div className={styles.errorNotice}>核准連結缺少已同意的地點，無法開放指定地點。請聯絡慧芳重新產生連結。</div>
               ) : null}
               {approvalState === "invalid" ? (
-                <div className={styles.errorNotice}>指定地點核准連結已失效、已使用或被撤銷，請重新聯絡小明。</div>
+                <div className={styles.errorNotice}>指定地點核准連結已失效、已使用或被撤銷，請重新聯絡慧芳。</div>
               ) : null}
               {approvalState === "unavailable" ? (
                 <div className={styles.warningNotice}>核准服務暫時無法驗證，請稍後重新整理；不用重新申請。</div>
@@ -886,13 +886,13 @@ export default function BookingForm() {
               {!customReady && approvalState !== "checking" ? (
                 <div className={styles.inlineNotice}>
                   需要指定其他地點？請先
-                  {" "}<a className={styles.link} href={SOCIAL.line} target="_blank" rel="noopener noreferrer">加小明私人 LINE</a>
+                  {" "}<a className={styles.link} href={SOCIAL.line} target="_blank" rel="noopener noreferrer">加慧芳私人 LINE</a>
                   {" "}確認。取得專屬連結後，系統會直接帶入核准地點。
                 </div>
               ) : null}
               {meetType === "custom" && approvedLocation ? (
                 <div className={styles.field}>
-                  <span className={styles.label}>小明已核准的指定地點</span>
+                  <span className={styles.label}>慧芳已核准的指定地點</span>
                   <div className={styles.locationValue}>
                     <span className={styles.locationName}>{approvedLocation.name}</span>
                     {approvedLocation.address ? <span className={styles.locationAddress}>{approvedLocation.address}</span> : null}
@@ -905,7 +905,7 @@ export default function BookingForm() {
                       </span>
                     ) : null}
                   </div>
-                  <p className={styles.sectionHint}>此地點已鎖定，若要更換請先與小明重新確認。</p>
+                  <p className={styles.sectionHint}>此地點已鎖定，若要更換請先與慧芳重新確認。</p>
                 </div>
               ) : null}
             </section>
@@ -929,7 +929,7 @@ export default function BookingForm() {
                 {!loadingSlots && !slotError && days.length === 0 ? (
                   <div className={styles.inlineNotice}>
                     目前沒有可預約時段。可改選其他聯繫方式，或
-                    {" "}<a className={styles.link} href={SOCIAL.line} target="_blank" rel="noopener noreferrer">直接聯絡小明</a>。
+                    {" "}<a className={styles.link} href={SOCIAL.line} target="_blank" rel="noopener noreferrer">直接聯絡慧芳</a>。
                   </div>
                 ) : null}
                 {days.length ? (

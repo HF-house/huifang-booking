@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import BookingForm from "./BookingForm";
 
 export const metadata: Metadata = {
-  title: "線上預約｜小明（王小明）",
+  title: "線上預約｜慧芳（鄭慧芳）",
   description: "預約房產諮詢、合作洽談或面試。依需求選擇聯繫方式與時間，完成 Email 確認後正式成立。",
   robots: { index: false, follow: false },
 };

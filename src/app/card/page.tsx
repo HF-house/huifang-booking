@@ -1,5 +1,5 @@
 /**
- * /card — 小明房仲日常電子名片門面頁(房仲日常 CIS,專業版)
+ * /card — 慧芳房仲日常電子名片門面頁(房仲日常 CIS,專業版)
  * 2026-06-19 改版:真照片 + 官方品牌 icon + 去 emoji + 精緻排版(系統擁有者:要更專業)。
  * robots noindex(個人名片頁、隱私)。
  */
@@ -14,14 +14,14 @@ const OG_IMAGE = `https://example.com${ABIN.photoUrl}`;
 
 export const metadata: Metadata = {
   title: `${ABIN.name}（${ABIN.alias}）‧ ${ABIN.title} | 預約諮詢`,
-  description: `${ABIN.slogan} 線上預約小明:買房 / 賣房 / 租賃 / 法律諮詢,一對一為你服務。`,
+  description: `${ABIN.slogan} 線上預約慧芳:買房 / 賣房 / 租賃 / 法律諮詢,一對一為你服務。`,
   robots: { index: false, follow: false },
-  // OG 鐵律:名片要講師高光(小明照片),不可 fallback OO 學院訂閱促銷圖
+  // OG 鐵律:名片要講師高光(慧芳照片),不可 fallback OO 學院訂閱促銷圖
   openGraph: {
     title: `${ABIN.name}（${ABIN.alias}）‧ ${ABIN.title}`,
-    description: `${ABIN.slogan} 線上預約小明、加 LINE 諮詢買賣租賃。`,
+    description: `${ABIN.slogan} 線上預約慧芳、加 LINE 諮詢買賣租賃。`,
     url: "https://card.example.com",
-    siteName: "房仲日常 ‧ OwnerName",
+    siteName: "中信房屋 ‧ 鄭慧芳",
     type: "profile",
     locale: "zh_TW",
     images: [{ url: OG_IMAGE, width: 460, height: 460, alt: ABIN.name }],
@@ -104,7 +104,7 @@ export default function CardPage() {
           {/* cover */}
           <div style={{ height: 92, background: `linear-gradient(120deg,${RCIS.sky},${RCIS.skyDeep})`, position: "relative" }}>
             <div style={{ position: "absolute", top: 14, right: 18, fontSize: 12.5, color: RCIS.ink, letterSpacing: 2, fontWeight: 800 }}>
-              房仲日常 ‧ OwnerName
+              中信房屋 ‧ 鄭慧芳
             </div>
           </div>
 
@@ -131,7 +131,7 @@ export default function CardPage() {
             </Link>
             <a href={SOCIAL.line} target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 9, background: "#06C755", color: RCIS.ink, fontSize: 16, fontWeight: 800, padding: "14px", borderRadius: 13, textDecoration: "none" }}>
               <LineIcon size={22} />
-              加小明 LINE
+              加慧芳 LINE
             </a>
           </div>
 
@@ -144,7 +144,7 @@ export default function CardPage() {
 
           {/* 社群 */}
           <div style={{ padding: "6px 26px 30px", borderTop: `1px solid ${RCIS.line}` }}>
-            <div style={{ fontSize: 12.5, color: RCIS.muted, margin: "16px 0 13px", textAlign: "center", letterSpacing: 1 }}>追蹤小明</div>
+            <div style={{ fontSize: 12.5, color: RCIS.muted, margin: "16px 0 13px", textAlign: "center", letterSpacing: 1 }}>追蹤慧芳</div>
             <div style={{ display: "flex", justifyContent: "center", gap: 16 }}>
               <SocialBtn href={SOCIAL.fb} label="Facebook">
                 <FacebookIcon size={26} />
@@ -158,7 +158,7 @@ export default function CardPage() {
             </div>
           </div>
         </div>
-        <div style={{ textAlign: "center", fontSize: 12, color: RCIS.muted, marginTop: 18 }}>© {ABIN.name} ‧ OO 房屋</div>
+        <div style={{ textAlign: "center", fontSize: 12, color: RCIS.muted, marginTop: 18 }}>© {ABIN.name} ‧ 中信房屋</div>
       </div>
     </main>
   );

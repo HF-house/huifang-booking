@@ -504,14 +504,14 @@ export async function POST(req: NextRequest) {
     }
     if (error instanceof AppointmentLocationApprovalError) {
       const messages: Record<string, string> = {
-        approved_location_missing: "指定地點核准資料不完整，請重新向小明確認。",
+        approved_location_missing: "指定地點核准資料不完整，請重新向慧芳確認。",
         approved_customer_mismatch: "這個指定地點連結不是核准給目前這組聯絡資料使用。",
         approved_time_mismatch: "你選的時間不在指定地點核准範圍內。",
         approved_duration_mismatch: "你選的時長不符合指定地點核准內容。",
       };
       return NextResponse.json(
         {
-          error: messages[error.message] || "指定地點尚未取得小明核准，或核准連結已失效。",
+          error: messages[error.message] || "指定地點尚未取得慧芳核准，或核准連結已失效。",
           code: error.message,
         },
         { status: 403 },
@@ -526,7 +526,7 @@ export async function POST(req: NextRequest) {
     if (error instanceof GoogleCalendarUnavailableError) {
       return NextResponse.json(
         {
-          error: "目前無法確認小明的行事曆，為避免重複預約，這次沒有建立預約。請稍後再試。",
+          error: "目前無法確認慧芳的行事曆，為避免重複預約，這次沒有建立預約。請稍後再試。",
           code: "calendar_unavailable",
         },
         { status: 503, headers: { "Retry-After": "60" } },

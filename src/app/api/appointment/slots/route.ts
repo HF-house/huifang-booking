@@ -74,7 +74,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json(
         {
           days: [],
-          error: "目前無法確認小明的行事曆，為避免重複預約，暫時不開放選時段。請稍後再試。",
+          error: "目前無法確認慧芳的行事曆，為避免重複預約，暫時不開放選時段。請稍後再試。",
           code: "calendar_unavailable",
         },
         { status: 503, headers: { "Retry-After": "60" } },

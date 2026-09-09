@@ -1,6 +1,6 @@
 /**
  * 客戶預約系統 — 通知層（2026-06-19）
- * 新預約成立 → ① email 通知系統擁有者 ② LINE 通知系統擁有者（小明 admin 群）③ email 確認給客戶。
+ * 新預約成立 → ① email 通知系統擁有者 ② LINE 通知系統擁有者（慧芳 admin 群）③ email 確認給客戶。
  *
  * 🔴 寄信安全閘（對齊寄信紅線）：
  *   - 系統擁有者通知（email + LINE）一律寄 = 系統通知 / 預先核可（寄系統擁有者自己）。
@@ -24,7 +24,7 @@ const APPOINTMENT_BASE_URL = process.env.APPOINTMENT_BASE_URL || "https://exampl
 const GENDER_HONOR: Record<string, string> = { male: "先生", female: "小姐" };
 const ABIN_PRIVATE_LINE_URL = "https://line.me/R/ti/p/~0900000000";
 const ABIN_OFFICE_LOCATION: MeetLocation = {
-  name: "OO 房屋 福星店",
+  name: "中信房屋 忠孝延吉加盟店",
   address: "台北市中正區範例路 1 號",
   lat: null,
   lng: null,
@@ -202,7 +202,7 @@ export function buildAppointmentCalendarUrl(opts: {
   ].filter(Boolean).join("\n");
   const p = new URLSearchParams({
     action: "TEMPLATE",
-    text: `與小明預約：${opts.name}`,
+    text: `與慧芳預約：${opts.name}`,
     dates: `${googleCalendarDate(opts.slotAt)}/${googleCalendarDate(endAt)}`,
     details,
   });
@@ -247,7 +247,7 @@ export function buildAppointmentIcs(opts: {
     `DTSTAMP:${googleCalendarDate(now)}`,
     `DTSTART:${googleCalendarDate(opts.slotAt)}`,
     `DTEND:${googleCalendarDate(endAt)}`,
-    `SUMMARY:${icsEsc(`與小明預約：${opts.name}`)}`,
+    `SUMMARY:${icsEsc(`與慧芳預約：${opts.name}`)}`,
     location ? `LOCATION:${icsEsc(location)}` : "",
     `DESCRIPTION:${icsEsc(details)}`,
     "END:VEVENT",
@@ -275,13 +275,13 @@ function realtorEmailLayout(opts: { title: string; preheader?: string; bodyHtml:
 <tr><td align="center">
 <table role="presentation" class="container" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:600px;background:#FFFFFF;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(28,45,58,0.08)">
   <tr><td style="background:linear-gradient(135deg,#4EC4DC,#2BA9C4);padding:22px 32px">
-    <div style="font-size:13px;color:#E8F7FB;letter-spacing:1px">房仲日常 ‧ OwnerName</div>
+    <div style="font-size:13px;color:#E8F7FB;letter-spacing:1px">中信房屋 ‧ 鄭慧芳</div>
     <div class="h1" style="font-size:24px;font-weight:800;color:#FFFFFF;margin-top:4px">${esc(opts.title)}</div>
   </td></tr>
   <tr><td class="px" style="padding:28px 32px">${opts.bodyHtml}</td></tr>
   <tr><td style="background:#F7FAFB;padding:20px 32px;border-top:1px solid #E3EAEE">
     <div style="font-size:13px;color:#7A8896;line-height:1.8">
-      王小明 小明 ‧ OO 房屋<br>
+      鄭慧芳 ‧ 中信房屋<br>
       📞 0900-000-000　📍 台北市中正區範例路 1 號<br>
       LINE：0900-000-000
     </div>
@@ -304,12 +304,12 @@ function transactionalEmailLayout(opts: { title: string; preheader?: string; bod
 <table role="presentation" class="container" width="560" cellpadding="0" cellspacing="0" style="width:560px;max-width:560px;background:#FFFFFF;border:1px solid #E3EAEE;border-radius:12px;overflow:hidden">
   <tr><td style="height:4px;background:#4EC4DC;font-size:0;line-height:0">&nbsp;</td></tr>
   <tr><td class="px" style="padding:22px 30px 4px">
-    <div style="font-size:13px;color:#7A8896">房仲日常 · OwnerName</div>
+    <div style="font-size:13px;color:#7A8896">中信房屋 · 鄭慧芳</div>
     <div style="font-size:20px;font-weight:700;color:#1C2D3A;margin-top:4px">${esc(opts.title)}</div>
   </td></tr>
   <tr><td class="px" style="padding:8px 30px 26px">${opts.bodyHtml}</td></tr>
   <tr><td style="padding:16px 30px;border-top:1px solid #EDF2F4">
-    <div style="font-size:13px;color:#7A8896;line-height:1.7">王小明 小明 · OO 房屋　LINE / 電話 0900-000-000</div>
+    <div style="font-size:13px;color:#7A8896;line-height:1.7">鄭慧芳 · 中信房屋　LINE / 電話 0910-376-660</div>
   </td></tr>
 </table>
 </td></tr></table></body></html>`;
@@ -385,7 +385,7 @@ export async function sendCustomerAppointmentConfirmation(a: NotifyInput): Promi
   const manageUrl = `${APPOINTMENT_BASE_URL}/card/booking/manage?token=${encodeURIComponent(createAppointmentManageToken(a.id, a.email))}`;
   // 交易信精簡版（降 Gmail 促銷分頁訊號）：個人化開頭 + 灰底資訊卡 + 單一主 CTA「加入行事曆」+ 其餘小文字連結。2026-07-18
   const custBody = `
-    <p style="font-size:16px;line-height:1.7;margin:0 0 16px">${esc(a.name)} ${honor}你好,小明已經收到你的預約,時段幫你安排好了。</p>
+    <p style="font-size:16px;line-height:1.7;margin:0 0 16px">${esc(a.name)} ${honor}你好,慧芳已經收到你的預約,時段幫你安排好了。</p>
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:15px;line-height:1.9;background:#F7FAFB;border-radius:10px">
       <tr><td style="padding:14px 16px">
         <div>📅 時段　<b>${esc(slotTw)}</b></div>
@@ -397,18 +397,18 @@ export async function sendCustomerAppointmentConfirmation(a: NotifyInput): Promi
       <a href="${esc(icsUrl)}" style="display:inline-block;background:#1C2D3A;color:#ffffff;font-size:15px;font-weight:700;padding:12px 28px;border-radius:8px;text-decoration:none">加入行事曆</a>
     </div>
     <p style="text-align:center;font-size:13px;color:#7A8896;line-height:2;margin:6px 0 0">
-      <a href="${esc(manageUrl)}" style="color:#1F6F83;text-decoration:none">改期 / 取消</a>${mapUrl ? ` · <a href="${esc(mapUrl)}" style="color:#1F6F83;text-decoration:none">地圖導航</a>` : ""} · <a href="${esc(ABIN_PRIVATE_LINE_URL)}" style="color:#1F6F83;text-decoration:none">加小明 LINE</a>
+      <a href="${esc(manageUrl)}" style="color:#1F6F83;text-decoration:none">改期 / 取消</a>${mapUrl ? ` · <a href="${esc(mapUrl)}" style="color:#1F6F83;text-decoration:none">地圖導航</a>` : ""} · <a href="${esc(ABIN_PRIVATE_LINE_URL)}" style="color:#1F6F83;text-decoration:none">加慧芳 LINE</a>
     </p>
-    <p style="font-size:14px;color:#7A8896;line-height:1.7;margin:18px 0 0">有任何狀況,直接回覆這封信或加小明 LINE 都可以。</p>
+    <p style="font-size:14px;color:#7A8896;line-height:1.7;margin:18px 0 0">有任何狀況,直接回覆這封信或加慧芳 LINE 都可以。</p>
   `;
   return sendAppointmentEmailAndRecord({
     appointmentId: a.id,
     purpose: "customer_confirmation",
     to: a.email,
-    subject: `你的預約已確認 · 小明（王小明）`,
+    subject: `你的預約已確認 · 慧芳（鄭慧芳）`,
     html: transactionalEmailLayout({
       title: "預約已確認",
-      preheader: `${esc(a.name)} ${honor}你好,小明已收到你的預約 · ${slotTw}`,
+      preheader: `${esc(a.name)} ${honor}你好,慧芳已收到你的預約 · ${slotTw}`,
       bodyHtml: custBody,
     }),
   });
@@ -455,7 +455,7 @@ export async function sendCustomerAppointmentConfirmationRequest(a: NotifyInput)
     appointmentId: a.id,
     purpose: "customer_confirmation_request",
     to: a.email,
-    subject: "請在 15 分鐘內確認預約 · 小明（王小明）",
+    subject: "請在 15 分鐘內確認預約 · 慧芳（鄭慧芳）",
     html: transactionalEmailLayout({
       title: "時段已暫時保留",
       preheader: `請在 ${deadlineTw} 前確認 · ${slotTw}`,
@@ -495,14 +495,14 @@ export async function sendCustomerAppointmentChangeEmail(
       </td></tr>
     </table>
     <p style="font-size:14px;color:#7A8896;line-height:1.7;margin:18px 0 0">
-      ${isCancel ? "如果還需要重新預約,可以回信或直接加小明 LINE。" : "確認信與行事曆請以這封更新後的資訊為準。"}
+      ${isCancel ? "如果還需要重新預約,可以回信或直接加慧芳 LINE。" : "確認信與行事曆請以這封更新後的資訊為準。"}
     </p>
   `;
   return sendAppointmentEmailAndRecord({
     appointmentId: a.id,
     purpose: isCancel ? "customer_cancel" : "customer_reschedule",
     to: a.email,
-    subject: isCancel ? `預約已取消 · 小明（王小明）` : `預約已改期 · 小明（王小明）`,
+    subject: isCancel ? `預約已取消 · 慧芳（鄭慧芳）` : `預約已改期 · 慧芳（鄭慧芳）`,
     html: transactionalEmailLayout({
       title,
       preheader: isCancel ? `你的預約已取消 · ${slotTw}` : `你的預約已改期 · ${slotTw}`,
@@ -526,7 +526,7 @@ export async function sendCustomerAppointmentReminder(a: NotifyInput): Promise<b
   }
   const slotTw = formatSlotRangeTw(a.slotAt, a.slotEndAt);
   const body = `
-    <p style="font-size:16px;line-height:1.7;margin:0 0 16px">${esc(a.name)} ${GENDER_HONOR[a.gender] || ""}你好,提醒你明天有和小明的預約。</p>
+    <p style="font-size:16px;line-height:1.7;margin:0 0 16px">${esc(a.name)} ${GENDER_HONOR[a.gender] || ""}你好,提醒你明天有和慧芳的預約。</p>
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:15px;line-height:1.9;background:#F7FAFB;border-radius:10px">
       <tr><td style="padding:14px 16px">
         <div>📅 時段　<b>${esc(slotTw)}</b></div>
@@ -534,13 +534,13 @@ export async function sendCustomerAppointmentReminder(a: NotifyInput): Promise<b
         ${a.meetUrl ? `<div style="margin-top:4px">🎥 視訊　<a href="${esc(a.meetUrl)}" style="color:#1F6F83">點我加入 Google Meet</a></div>` : ""}
       </td></tr>
     </table>
-    <p style="font-size:14px;color:#7A8896;line-height:1.7;margin:18px 0 0">若需要改期或取消,請直接回信或加小明 LINE。</p>
+    <p style="font-size:14px;color:#7A8896;line-height:1.7;margin:18px 0 0">若需要改期或取消,請直接回信或加慧芳 LINE。</p>
   `;
   return sendAppointmentEmailAndRecord({
     appointmentId: a.id,
     purpose: "customer_reminder",
     to: a.email,
-    subject: `明天預約提醒 · 小明（王小明）`,
+    subject: `明天預約提醒 · 慧芳（鄭慧芳）`,
     html: transactionalEmailLayout({
       title: "明天預約提醒",
       preheader: `你的預約時間:${slotTw}`,
@@ -616,7 +616,7 @@ export async function notifyNewAppointment(
       `<br><a href="${esc(mapUrl)}" style="color:#2BA9C4;text-decoration:none">🗺 開地圖導航</a>` +
       (locManualNote ? `<span style="color:#7A8896;font-size:13px"> ${locManualNote}</span>` : "")
     : "";
-  // 給 LINE 用的地點文字。固定地點（公司面談/分公司/OO 學院工作室）小明本來就知道在哪，
+  // 給 LINE 用的地點文字。固定地點（公司面談/分公司/OO 學院工作室）慧芳本來就知道在哪，
   // 不塞又長又醜的編碼地圖網址；只有「客戶自訂地點」才附地圖連結。2026-07-17
   const locLineText = loc
     ? `\n📍 地點：${loc.name}${loc.address ? ` ‧ ${loc.address}` : ""}${locManualNote}` +
@@ -643,7 +643,7 @@ export async function notifyNewAppointment(
     ${a.aiSuggestion ? `<div style="margin-top:16px;padding:14px 16px;background:#E8F7FB;border-radius:10px;font-size:15px;line-height:1.7"><b>🤖 AI 研判</b>　${esc(a.aiSuggestion)}</div>` : ""}
     <div style="margin-top:16px;padding:14px 16px;background:#FFF7E8;border:1px solid #F5A91D;border-radius:12px;font-size:14px;color:#1C2D3A;line-height:1.7">
       <b>內部用</b><br>
-      這個入口給小明查看 / 管理這筆預約;不是給客戶看的確認信。
+      這個入口給慧芳查看 / 管理這筆預約;不是給客戶看的確認信。
       <div style="text-align:center;margin-top:12px">
         <a href="${esc(internalManageUrl)}" style="display:inline-block;background:#F5A91D;color:#1C2D3A;font-size:15px;font-weight:800;padding:11px 18px;border-radius:12px;text-decoration:none">內部用：管理這筆預約</a>
       </div>
@@ -666,7 +666,7 @@ export async function notifyNewAppointment(
         }),
       });
 
-  // ② LINE 給系統擁有者（小明 admin 群,自動 mint token）
+  // ② LINE 給系統擁有者（慧芳 admin 群,自動 mint token）
   const lineText =
     `🔔 新預約\n` +
     `👤 ${a.name} ${honor}\n` +

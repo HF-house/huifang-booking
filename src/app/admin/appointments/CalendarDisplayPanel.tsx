@@ -151,7 +151,7 @@ export default function CalendarDisplayPanel({
               }}
             >
               {preview}
-              <div style={{ fontSize: 13.5, fontWeight: 400, opacity: 0.9, marginTop: 2 }}>16:15，OO 房屋 福星店</div>
+              <div style={{ fontSize: 13.5, fontWeight: 400, opacity: 0.9, marginTop: 2 }}>16:15，中信房屋 忠孝延吉加盟店</div>
             </div>
           </div>
 

@@ -217,7 +217,7 @@ export default function BookingManageClient({ token }: { token: string }) {
       }
 
       if (action === "confirm_attendance") {
-        setMessage("已確認預約與出席。小明會依這個時間準備，請把行程加入你的行事曆。");
+        setMessage("已確認預約與出席。慧芳會依這個時間準備，請把行程加入你的行事曆。");
       } else if (action === "cancel") {
         setMessage("預約已取消，原時段已釋出。");
       } else {
@@ -250,7 +250,7 @@ export default function BookingManageClient({ token }: { token: string }) {
     <main className={styles.page}>
       <div className={styles.shell}>
         <header className={styles.header}>
-          <div className={styles.brand}>房仲日常 MR.BIN</div>
+          <div className={styles.brand}>中信房屋 忠孝延吉加盟店</div>
           <h1 className={styles.title}>管理我的預約</h1>
           <p className={styles.lead}>確認是否出席、查看時間，或在開放期限內改期與取消。</p>
         </header>
@@ -275,7 +275,7 @@ export default function BookingManageClient({ token }: { token: string }) {
                       ? "這次預約已完成。若要安排下一次會談，請重新預約。"
                       : appointment.attendanceStatus === "confirmed"
                         ? "你已確認會出席。時間有變動時，請提早使用下方功能處理。"
-                        : "預約已成立；請再按一次出席確認，讓小明知道你會依約到場。"}
+                        : "預約已成立；請再按一次出席確認，讓慧芳知道你會依約到場。"}
             </p>
 
             {pending && !expired && appointment.confirmationDeadline ? (
@@ -392,7 +392,7 @@ export default function BookingManageClient({ token }: { token: string }) {
                   </div>
                 ) : (
                   <div className={styles.inlineNotice}>
-                    目前沒有可改期時段，請直接聯絡小明協助處理。
+                    目前沒有可改期時段，請直接聯絡慧芳協助處理。
                   </div>
                 )}
                 <div className={styles.actions}>
@@ -439,7 +439,7 @@ export default function BookingManageClient({ token }: { token: string }) {
                 </button>
               ) : null}
               <a className={styles.actionLink} href={SOCIAL.line} target="_blank" rel="noopener noreferrer">
-                聯絡小明
+                聯絡慧芳
               </a>
             </div>
 

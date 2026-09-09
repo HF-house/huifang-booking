@@ -1,7 +1,7 @@
 /**
- * 房仲日常 bot(@mrbin)推「小明官方 Line AI 客服機器人」admin 群 — HITL 接手通知用
+ * 房仲日常 bot(@mrbin)推「慧芳官方 Line AI 客服機器人」admin 群 — HITL 接手通知用
  *
- * 2026-06-04: HITL 通知必須走房仲日常 bot 推小明監控群(OO 學院 bot 不在那群,所以不能用 notifyLineGroup)。
+ * 2026-06-04: HITL 通知必須走房仲日常 bot 推慧芳監控群(OO 學院 bot 不在那群,所以不能用 notifyLineGroup)。
  * 6/01 長期 token 全失效 → 一律 client_credentials 即時 mint(ABIN_LINE_CHANNEL_ID + ABIN_LINE_CHANNEL_SECRET)。
  */
 let _abinTokenCache = "";

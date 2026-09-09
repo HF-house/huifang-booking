@@ -100,11 +100,11 @@ async function loadAppointment(
 ): Promise<{ appt: Appointment } | { error: string; status: number }> {
   const verified = verifyAppointmentManageToken(token);
   if (!verified) {
-    return { error: "連結已失效，請回到最新確認信，或加小明 LINE 協助處理。", status: 401 };
+    return { error: "連結已失效，請回到最新確認信，或加慧芳 LINE 協助處理。", status: 401 };
   }
   let appt = await getAppointment(verified.id);
   if (!appt || appt.email.toLowerCase() !== verified.email.toLowerCase()) {
-    return { error: "找不到這筆預約，請加小明 LINE 協助處理。", status: 404 };
+    return { error: "找不到這筆預約，請加慧芳 LINE 協助處理。", status: 404 };
   }
   if (
     appt.status === "pending_confirmation" &&
@@ -250,7 +250,7 @@ export async function POST(req: NextRequest) {
       console.error("[appointment/manage] confirmation enqueue failed:", error);
       return NextResponse.json(
         {
-          error: "預約已確認，但行事曆與通知尚未排入處理。請稍後重新整理；若持續出現，請加小明 LINE。",
+          error: "預約已確認，但行事曆與通知尚未排入處理。請稍後重新整理；若持續出現，請加慧芳 LINE。",
           code: "confirmation_outbox_unavailable",
           appointment: publicAppointment(appt),
         },
@@ -308,7 +308,7 @@ export async function POST(req: NextRequest) {
         Date.now() + appointmentMeetingPolicy(appt.meet_type).leadHours * 3600_000
     ) {
       return NextResponse.json(
-        { error: "距離預約時間太近，請直接加小明 LINE 協助取消。" },
+        { error: "距離預約時間太近，請直接加慧芳 LINE 協助取消。" },
         { status: 409 },
       );
     }
@@ -362,7 +362,7 @@ export async function POST(req: NextRequest) {
       Date.now() + appointmentMeetingPolicy(appt.meet_type).leadHours * 3600_000
     ) {
       return NextResponse.json(
-        { error: "距離預約時間太近，請直接加小明 LINE 協助改期。" },
+        { error: "距離預約時間太近，請直接加慧芳 LINE 協助改期。" },
         { status: 409 },
       );
     }
@@ -458,7 +458,7 @@ export async function POST(req: NextRequest) {
       if (error instanceof GoogleCalendarUnavailableError) {
         return NextResponse.json(
           {
-            error: "目前無法確認小明的行事曆，為避免重複預約，這次沒有改期。請稍後再試。",
+            error: "目前無法確認慧芳的行事曆，為避免重複預約，這次沒有改期。請稍後再試。",
             code: "calendar_unavailable",
           },
           { status: 503, headers: { "Retry-After": "60" } },

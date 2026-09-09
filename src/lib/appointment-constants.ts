@@ -34,7 +34,7 @@ export const INTENTS = [
   { key: "rent", label: "租賃", emoji: "🔑", placeholder: "例:想租 or 出租、想要的區域、預算、何時要" },
   { key: "legal", label: "法律諮詢", emoji: "⚖️", placeholder: "例:繼承過戶、產權問題、買賣糾紛、貸款疑問" },
   { key: "interview", label: "面試", emoji: "🧑‍💼", placeholder: "例:應徵職位、方便聯絡的時間、想先了解的事", interviewOnly: true },
-  { key: "other", label: "其他", emoji: "💬", placeholder: "簡單描述你想找小明聊的事" },
+  { key: "other", label: "其他", emoji: "💬", placeholder: "簡單描述你想找慧芳聊的事" },
 ] as const;
 
 export const URGENCIES = [
@@ -44,11 +44,11 @@ export const URGENCIES = [
 ] as const;
 
 export const MEET_TYPES = [
-  { key: "office", label: "公司面談", emoji: "🏢", desc: "OO 房屋・範例路 1 號" },
+  { key: "office", label: "公司面談", emoji: "🏢", desc: "中信房屋・台北市松山區延吉街 46-1 號 1 樓" },
   // 2026-07-17 新增：分公司（範例）
   { key: "hq", label: "分公司", emoji: "🏛️", desc: "台中市西屯區台灣大道三段 660 號 4F-2（範例大樓）" },
   { key: "studio", label: "OO 學院工作室", emoji: "🐻", desc: "台中市西屯區烈美街55巷12號" },
-  { key: "phone", label: "電話聯繫", emoji: "📞", desc: "小明主動來電" },
+  { key: "phone", label: "電話聯繫", emoji: "📞", desc: "慧芳主動來電" },
   { key: "video", label: "線上視訊", emoji: "💻", desc: "Google Meet / LINE 視訊" },
   // 2026-06-25 第 4 種:客戶自己指定見面地點（Google Places 自動完成 + 純文字備案）
   { key: "custom", label: "我指定地點", emoji: "📍", desc: "你來指定見面地點" },

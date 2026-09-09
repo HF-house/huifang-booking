@@ -992,7 +992,7 @@ export async function createAppointment(data: {
   meetType: string;
   /** 客戶自訂見面地點 JSON(MeetLocation 字串化);非 custom 為 null。2026-06-25 */
   meetLocation?: string | null;
-  /** 小明核准自訂地點後產生的一次性 token；只有 meetType=custom 才會核銷。 */
+  /** 慧芳核准自訂地點後產生的一次性 token；只有 meetType=custom 才會核銷。 */
   customLocationApprovalToken?: string | null;
   intent?: string[] | null;
   qualification?: AppointmentQualification | null;

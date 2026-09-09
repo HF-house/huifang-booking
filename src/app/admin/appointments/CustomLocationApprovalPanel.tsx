@@ -175,7 +175,7 @@ export default function CustomLocationApprovalPanel() {
   };
 
   const approvalMessage = result
-    ? `${customerHint.trim() ? `${customerHint.trim()}您好，` : ""}指定地點已由小明確認。請使用以下專屬連結完成預約；地點、可約時段與時長都以本次核准內容為準。\n${result.url}\n\n連結為一次性使用，並會在 ${new Date(result.expiresAt).toLocaleString("zh-TW")} 到期。`
+    ? `${customerHint.trim() ? `${customerHint.trim()}您好，` : ""}指定地點已由慧芳確認。請使用以下專屬連結完成預約；地點、可約時段與時長都以本次核准內容為準。\n${result.url}\n\n連結為一次性使用，並會在 ${new Date(result.expiresAt).toLocaleString("zh-TW")} 到期。`
     : "";
 
   return (
