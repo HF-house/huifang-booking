@@ -2,7 +2,8 @@
  * GET /api/appointment/slots?meetType=office
  * 依見面方式套用提前時間、公開時長與交通緩衝，並合併 DB lock 與 Google Calendar busy。
  */
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse, after } from "next/server";
+import { runAppointmentOutbox } from "@/lib/appointment-outbox-worker";
 import {
   BOOKING_RULES,
   MEET_TYPE_KEYS,
@@ -17,6 +18,20 @@ import { getClientIp } from "@/lib/rate-limit";
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
+  // 保險：上一輪沒寄成功的通知，趁有人開預約頁時補寄。
+  // 走 after() 所以不影響這支的回應速度；一次只收 5 張，避免拖慢熱路徑。
+  // 沒有這段的話，某次寄信失敗就會永遠躺在佇列裡沒人管（Hobby 方案的排程一天只跑一次，不夠用）。
+  after(async () => {
+    try {
+      const result = await runAppointmentOutbox(5);
+      if (result.done || result.failed) {
+        console.log("[appointment/slots] 順手補收派工單:", JSON.stringify(result));
+      }
+    } catch (error) {
+      console.error("[appointment/slots] 補收派工單失敗:", error);
+    }
+  });
+
   try {
     const rate = await consumeAppointmentRateLimit({
       key: `slots:ip:${getClientIp(req)}`,

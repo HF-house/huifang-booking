@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse, after } from "next/server";
+import { runAppointmentOutbox } from "@/lib/appointment-outbox-worker";
 import {
   AppointmentIdempotencyConflictError,
   AppointmentLocationApprovalError,
@@ -156,6 +157,23 @@ async function enqueueCreatedAppointmentTasks(appt: AppointmentRow): Promise<voi
       }),
     ]);
   }
+  drainOutboxAfterResponse();
+}
+
+/**
+ * 排完派工單後,立刻在「回應送出之後」收一次,通知才會即時。
+ * 用 after() 是為了不讓客戶在送出畫面多等寄信那 1~2 秒。
+ * 這裡失敗不影響預約本身 —— 派工單還在,之後補收(/api/appointment/outbox)會再寄一次。
+ */
+function drainOutboxAfterResponse(): void {
+  after(async () => {
+    try {
+      const result = await runAppointmentOutbox();
+      console.log("[appointment/create] 派工單已收:", JSON.stringify(result));
+    } catch (error) {
+      console.error("[appointment/create] 收派工單失敗(稍後補收):", error);
+    }
+  });
 }
 
 function sameIdempotentCustomer(appt: AppointmentRow, email: string, phone: string): boolean {
