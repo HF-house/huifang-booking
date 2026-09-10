@@ -23,6 +23,7 @@ import {
 import {
   notifyAppointmentChange,
   notifyNewAppointment,
+  type AppointmentNotificationDispatchResult,
   type NotifyInput,
 } from "@/lib/appointment-notify";
 
@@ -94,6 +95,30 @@ function readPayload(row: AppointmentOutboxRow): Record<string, unknown> {
   }
 }
 
+function lineConfigured(): boolean {
+  return Boolean(
+    (process.env.LINE_CHANNEL_ACCESS_TOKEN || "").trim() &&
+      (process.env.LINE_ADMIN_GROUP_ID || "").trim(),
+  );
+}
+
+/**
+ * 只有「本來就該通的管道」失敗才算失敗。
+ *
+ * notifyNewAppointment 只要有任一管道沒送成就回 ok:false。
+ * 但 LINE 還沒接的情況下它必然失敗，若照單全收會讓每張派工單都卡在 retry
+ * 重試八次才罷休 —— email 明明已經寄成功了。
+ */
+function assertDispatched(result: AppointmentNotificationDispatchResult, label: string): void {
+  if (result.ok) return;
+  const failed: string[] = [];
+  if (result.customerEmail === "failed") failed.push("客戶 Email");
+  if (result.adminEmail === "failed") failed.push("管理員 Email");
+  if (result.adminLine === "failed" && lineConfigured()) failed.push("LINE");
+  if (!failed.length) return;
+  throw new Error(`${label}未送達：${failed.join("、")}`);
+}
+
 /** 還沒接的功能：直接結案，不要讓它一直重試。回傳結案理由，null 代表這個任務要真的執行。 */
 function unconfiguredReason(taskType: string): string | null {
   switch (taskType) {
@@ -131,7 +156,7 @@ async function handle(row: AppointmentOutboxRow): Promise<void> {
     case "notify_new": {
       const phase = payload.phase === "confirmation_request" ? "confirmation_request" : "confirmed";
       const result = await notifyNewAppointment(input, { phase, onlyPending: true });
-      if (!result.ok) throw new Error(`通知未全部送達：${JSON.stringify(result)}`);
+      assertDispatched(result, "新預約通知");
       return;
     }
     case "notify_reschedule": {
@@ -143,7 +168,7 @@ async function handle(row: AppointmentOutboxRow): Promise<void> {
         },
         { notifyAdmin: true, onlyPending: true },
       );
-      if (!result.ok) throw new Error(`改期通知未全部送達：${JSON.stringify(result)}`);
+      assertDispatched(result, "改期通知");
       return;
     }
     case "notify_cancel": {
@@ -155,7 +180,7 @@ async function handle(row: AppointmentOutboxRow): Promise<void> {
         },
         { notifyAdmin: true, onlyPending: true },
       );
-      if (!result.ok) throw new Error(`取消通知未全部送達：${JSON.stringify(result)}`);
+      assertDispatched(result, "取消通知");
       return;
     }
     default:
